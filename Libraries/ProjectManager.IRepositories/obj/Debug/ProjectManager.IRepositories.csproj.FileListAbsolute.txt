@@ -1,0 +1,7 @@
+C:\ProjectManager\Libraries\ProjectManager.IRepositories\bin\Debug\ProjectManager.IRepositories.dll
+C:\ProjectManager\Libraries\ProjectManager.IRepositories\bin\Debug\ProjectManager.IRepositories.pdb
+C:\ProjectManager\Libraries\ProjectManager.IRepositories\bin\Debug\ProjectManager.Entities.dll
+C:\ProjectManager\Libraries\ProjectManager.IRepositories\bin\Debug\ProjectManager.Entities.pdb
+C:\ProjectManager\Libraries\ProjectManager.IRepositories\obj\Debug\ProjectManager.IRepositories.csprojResolveAssemblyReference.cache
+C:\ProjectManager\Libraries\ProjectManager.IRepositories\obj\Debug\ProjectManager.IRepositories.dll
+C:\ProjectManager\Libraries\ProjectManager.IRepositories\obj\Debug\ProjectManager.IRepositories.pdb

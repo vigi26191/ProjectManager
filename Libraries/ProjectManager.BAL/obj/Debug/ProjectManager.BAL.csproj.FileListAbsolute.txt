@@ -1,0 +1,16 @@
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.BAL.dll
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.BAL.pdb
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\AutoMapper.dll
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.DAL.dll
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.Entities.dll
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.IRepositories.dll
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\EntityFramework.dll
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.DAL.pdb
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.DAL.dll.config
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.Entities.pdb
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\ProjectManager.IRepositories.pdb
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\AutoMapper.xml
+C:\ProjectManager\Libraries\ProjectManager.BAL\bin\Debug\EntityFramework.xml
+C:\ProjectManager\Libraries\ProjectManager.BAL\obj\Debug\ProjectManager.BAL.csprojResolveAssemblyReference.cache
+C:\ProjectManager\Libraries\ProjectManager.BAL\obj\Debug\ProjectManager.BAL.dll
+C:\ProjectManager\Libraries\ProjectManager.BAL\obj\Debug\ProjectManager.BAL.pdb
