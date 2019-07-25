@@ -7,13 +7,13 @@ namespace ProjectManager.DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class RemovedRequiredRelationBetweenProjectAndUserTables : IMigrationMetadata
+    public sealed partial class RemovedRelationBetweenUserandTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RemovedRequiredRelationBetweenProjectAndUserTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RemovedRelationBetweenUserandTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907220641008_RemovedRequiredRelationBetweenProjectAndUserTables"; }
+            get { return "201907240516337_RemovedRelationBetweenUserandTable"; }
         }
         
         string IMigrationMetadata.Source

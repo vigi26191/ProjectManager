@@ -1,7 +1,7 @@
 ﻿using ProjectManager.BAL;
 using ProjectManager.Entities;
 using ProjectManager.Entities.Constants;
-using ProjectManager.Entities.Domain;
+using ProjectManager.Entities.DTO;
 using System.Web.Http;
 
 namespace ProjectManager.API.Controllers
@@ -45,12 +45,47 @@ namespace ProjectManager.API.Controllers
         }
 
         [HttpGet]
-        [Route("endTask/{taskId:int}")]
-        public IHttpActionResult endTask(int taskId)
+        [Route("lookupTask")]
+        public IHttpActionResult GetTaskLookupData()
         {
-            bool taskNotFound = false;
+            var lookupData = _taskBAL.GetTaskLookupData();
 
-            var result = _taskBAL.EndTask(taskId, out taskNotFound);
+            if (lookupData != null)
+            {
+                return Ok(lookupData);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("saveTask")]
+        public IHttpActionResult SaveTask(TaskDTO task)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = _taskBAL.SaveTask(task);
+
+                if (result)
+                {
+                    return Ok($"{Constants.TASK} information {Messages.SAVE_SUCCESS}");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [HttpPost]
+        [Route("endTask/{taskId:int}")]
+        public IHttpActionResult EndTask(int taskId)
+        {
+            var result = _taskBAL.EndTask(taskId);
 
             if (result)
             {
@@ -58,14 +93,7 @@ namespace ProjectManager.API.Controllers
             }
             else
             {
-                if (taskNotFound)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest();
-                }
+                return NotFound();
             }
         }
     }

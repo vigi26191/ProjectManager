@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectManager.Entities.Domain
 {
@@ -17,9 +18,9 @@ namespace ProjectManager.Entities.Domain
 
         #region Navigation Properties
 
-        public Project Project { get; set; }
+        public ICollection<Project> Projects { get; set; }
 
-        public int? ProjectId { get; set; }
+        public ICollection<Task> Tasks { get; set; }
 
         #endregion
     }

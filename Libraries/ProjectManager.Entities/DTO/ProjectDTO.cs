@@ -14,8 +14,10 @@ namespace ProjectManager.Entities.DTO
 
         public int ProjectPriority { get; set; }
 
-        public bool? IsProjectSuspended { get; set; }
+        public int UserId { get; set; }
 
-        public int ManagerId { get; set; }
+        public string UserName { get; set; }
+
+        public bool? IsProjectSuspended { get; set; }
     }
 }

@@ -35,20 +35,38 @@ namespace ProjectManager.BAL
             return projects;
         }
 
-        public bool SaveProject(ProjectDTO project)
+        public ProjectLookupDTO GetProjectLookupData()
+        {
+            ProjectLookupDTO projectLookupDTO = null;
+
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                projectLookupDTO = new ProjectLookupDTO
+                {
+                    Users = unitOfWork.Users.GetAll()
+                    .Select(s => new KeyValuePair<int, string>(s.UserId, s.FirstName)).ToList(),
+
+                    Projects = Mapper.Map<List<ProjectDTO>>(unitOfWork.Projects.GetAll().ToList())
+                };
+            }
+
+            return projectLookupDTO;
+        }
+
+        public bool SaveProject(ProjectDTO projectDTO)
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
-                var projectInDB = unitOfWork.Projects.Get(project.ProjectId);
+                var projectInDB = unitOfWork.Projects.Get(projectDTO.ProjectId);
 
                 if (projectInDB == null)
                 {
-                    var newProject = Mapper.Map<Project>(project);
-                    unitOfWork.Projects.Add(newProject);
+                    projectInDB = Mapper.Map<Project>(projectDTO);
+                    unitOfWork.Projects.Add(projectInDB);
                 }
                 else
                 {
-                    Mapper.Map(project, projectInDB);
+                    Mapper.Map(projectDTO, projectInDB);
                 }
 
                 try
@@ -62,8 +80,9 @@ namespace ProjectManager.BAL
             }
         }
 
-        public bool SuspendProject(int projectId)
+        public bool SuspendProject(int projectId, out bool isProjectRecordInUse)
         {
+            isProjectRecordInUse = false;
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
                 var projectInDB = unitOfWork.Projects.Get(projectId);
@@ -75,7 +94,6 @@ namespace ProjectManager.BAL
                 else
                 {
                     projectInDB.IsProjectSuspended = true;
-                    unitOfWork.Projects.Add(projectInDB);
                 }
 
                 try

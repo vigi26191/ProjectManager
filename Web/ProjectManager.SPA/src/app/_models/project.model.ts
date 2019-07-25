@@ -1,10 +1,10 @@
 export interface IProjectModel {
-    UserId: number;
+    ProjectId: number;
     ProjectName: string;
     ProjectStartDate: Date;
     ProjectEndDate: Date;
     ProjectPriority: number;
+    UserId: number;
+    UserName: string;
     IsProjectSuspended: boolean;
-    ManagerId: number;
-    ManagerName: string;
 }

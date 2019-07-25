@@ -6,6 +6,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { CONSTANTS } from 'src/app/_constants/constants';
 import { MESSAGES } from 'src/app/_messages/messages';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-users',
@@ -26,7 +27,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UsersService
+    private userService: UsersService,
+    private alertify: AlertifyService
   ) {
   }
 
@@ -53,7 +55,7 @@ export class UsersComponent implements OnInit {
       .subscribe(response => {
         this.users = response;
       },
-        (error) => { alert(error); },
+        (error) => { this.alertify.error(error); },
         () => { });
   }
 
@@ -64,11 +66,11 @@ export class UsersComponent implements OnInit {
 
       this.userService.saveUser(userRequest)
         .subscribe(response => {
-          alert(response);
+          this.alertify.success(response);
           this.resetUserForm();
         },
           (error) => {
-            alert(error.error.Message);
+            this.alertify.success(error.error.Message);
           },
           () => { this.getAllUsers(); });
     } else {
@@ -90,16 +92,18 @@ export class UsersComponent implements OnInit {
   }
 
   removeUser(userId: number): void {
-    if (confirm(MESSAGES.MSG_REMOVE)) {
-      this.userService.removeUser(userId)
-        .subscribe(response => {
-          alert(response);
-        },
-          (error) => {
-            alert(error.error.Message);
+    this.alertify.confirm(
+      MESSAGES.MSG_REMOVE_USER_CONFIRMATION, () => {
+        this.userService.removeUser(userId)
+          .subscribe(response => {
+            this.alertify.success(response);
           },
-          () => { this.getAllUsers(); });
-    }
+            (error) => {
+              this.alertify.error(error.error.Message);
+            },
+            () => { this.getAllUsers(); });
+      }
+    );
   }
 
   resetUserForm(): void {

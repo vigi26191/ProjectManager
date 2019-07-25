@@ -9,12 +9,14 @@ import { ROUTE_PATH } from 'src/app/_constants/route-names.constant';
 })
 export class NavComponent implements OnInit {
 
+  readonly routePath = ROUTE_PATH;
+
   constructor(
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.router.navigate([ROUTE_PATH.USERS]);
+    this.router.navigate([ROUTE_PATH.PROJECTS]);
   }
 
 }

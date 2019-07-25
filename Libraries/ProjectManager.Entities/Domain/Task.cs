@@ -10,9 +10,8 @@ namespace ProjectManager.Entities.Domain
         [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.TASK_NAME_REQUIRED)]
         public string TaskName { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.PRIORITY_REQUIRED)]
         [Range(minimum: 0, maximum: 30, ErrorMessage = ValidationMessages.PRIORITY_RANGE)]
-        public int TaskPriority { get; set; }
+        public int? TaskPriority { get; set; }
 
         public bool? IsParentTask { get; set; }
 
@@ -21,5 +20,21 @@ namespace ProjectManager.Entities.Domain
         public DateTime? TaskEndDate { get; set; }
 
         public bool? IsTaskComplete { get; set; }
+
+        #region Navigation Properties
+
+        public Project Project { get; set; }
+
+        public int ProjectId { get; set; }
+
+        public User User { get; set; }
+
+        public int UserId { get; set; }
+
+        public Task ParentTask { get; set; }
+
+        public int? ParentTaskId { get; set; }
+
+        #endregion
     }
 }

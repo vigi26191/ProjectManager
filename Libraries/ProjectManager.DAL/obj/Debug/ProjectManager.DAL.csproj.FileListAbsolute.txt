@@ -15,10 +15,14 @@ C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migr
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddedTasksTable.resources
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.RenamedFieldsInProjectsTable.resources
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddedIsTaskCompleteFieldtoTaskTable.resources
-C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddedRelationBetweenProjectAndUserTables.resources
-C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.RemovedRequiredRelationBetweenProjectAndUserTables.resources
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddedUniqueConstraintToEmployeeIdColumnInUsersTable.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddedNewColumnIsProjectSuspendedToProjectsTable.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.RemovedRelationBetweenUserandTable.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddingOneToManyRelationBetweenUserAndProject.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddingOneToManyRelationBetweenTaskProjectAndTaskUser.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddingParentTaskIdToTasksTable.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.ChangingTaskPriorityFieldToNullableinTasksTable.resources
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.csproj.GenerateResource.Cache
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.dll
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.pdb
-C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddedNewColumnIsProjectSuspendedToProjectsTable.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.ChangingParentTaskIdToNullableFieldInTasksTable.resources

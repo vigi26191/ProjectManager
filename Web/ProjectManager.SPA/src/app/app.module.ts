@@ -4,9 +4,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { DataTablesModule } from 'angular-datatables';
+import { ToastrModule } from 'ng6-toastr-notifications';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -35,9 +37,11 @@ import { OnlyNumberDirective } from './_directives/only-number.directive';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     AlertModule.forRoot(),
-    DataTablesModule
+    DataTablesModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

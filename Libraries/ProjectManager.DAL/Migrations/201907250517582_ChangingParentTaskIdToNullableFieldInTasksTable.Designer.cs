@@ -7,13 +7,13 @@ namespace ProjectManager.DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedRelationBetweenProjectAndUserTables : IMigrationMetadata
+    public sealed partial class ChangingParentTaskIdToNullableFieldInTasksTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedRelationBetweenProjectAndUserTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangingParentTaskIdToNullableFieldInTasksTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "201907201134489_AddedRelationBetweenProjectAndUserTables"; }
+            get { return "201907250517582_ChangingParentTaskIdToNullableFieldInTasksTable"; }
         }
         
         string IMigrationMetadata.Source

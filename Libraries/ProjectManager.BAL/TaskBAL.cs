@@ -1,84 +1,115 @@
-﻿using ProjectManager.DAL;
-using ProjectManager.DAL.Concretes;
-using ProjectManager.Entities.Domain;
+﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectManager.Entities.DTO;
+using ProjectManager.DAL.Concretes;
+using ProjectManager.DAL;
+using ProjectManager.Entities.Domain;
 
 namespace ProjectManager.BAL
 {
     public class TaskBAL
     {
-        public Task GetTask(int taskId)
+        public TaskDTO GetTask(int taskId)
         {
-            Task task = null;
+            TaskDTO task = null;
 
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
-                task = unitOfWork.Tasks.Get(taskId);
+                task = Mapper.Map<TaskDTO>(unitOfWork.Tasks.Get(taskId));
             }
 
             return task;
         }
 
-        public IEnumerable<Task> GetTasks()
+        public IEnumerable<TaskDTO> GetTasks()
         {
-            List<Task> tasks = null;
+            List<TaskDTO> tasks = null;
 
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
-                tasks = unitOfWork.Tasks.GetAll().ToList();
+                tasks = Mapper.Map<List<TaskDTO>>(unitOfWork.Tasks.GetAll().ToList());
             }
 
             return tasks;
         }
 
-        public bool SaveTask(Task Task)
+        public TaskLookupDTO GetTaskLookupData()
+        {
+            TaskLookupDTO taskLookupDTO = null;
+
+            using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
+            {
+                taskLookupDTO = new TaskLookupDTO
+                {
+                    Projects = unitOfWork.Projects.GetAll()
+                    .Where(w => w.IsProjectSuspended == null || w.IsProjectSuspended == false)
+                    .Select(s => new KeyValuePair<int, string>(s.ProjectId, s.ProjectName)).ToList(),
+
+                    ParentTasks = unitOfWork.Tasks.GetAll()
+                    .Where(w => w.IsParentTask == null || w.IsParentTask == true)
+                    .Select(s => new KeyValuePair<int, string>(s.TaskId, s.TaskName)).ToList(),
+
+                    Users = unitOfWork.Users.GetAll()
+                    .Select(s => new KeyValuePair<int, string>(s.UserId, s.FirstName)).ToList()
+                };
+            }
+
+            return taskLookupDTO;
+        }
+
+        public bool SaveTask(TaskDTO taskDTO)
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
-                unitOfWork.Tasks.Add(Task);
+                var taskInDB = unitOfWork.Tasks.Get(taskDTO.TaskId);
+
+                if (taskInDB == null)
+                {
+                    taskInDB = Mapper.Map<Task>(taskDTO);
+                    unitOfWork.Tasks.Add(taskInDB);
+                }
+                else
+                {
+                    Mapper.Map(taskDTO, taskInDB);
+                }
 
                 try
                 {
                     return unitOfWork.Complete() > 0;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     return false;
                 }
             }
         }
 
-        public bool EndTask(int taskId, out bool taskNotFound)
+        public bool EndTask(int taskId)
         {
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
-                Task task = unitOfWork.Tasks.Get(taskId);
+                var taskInDB = unitOfWork.Tasks.Get(taskId);
 
-                if (task != null)
+                if (taskInDB == null)
                 {
-                    try
-                    {
-                        taskNotFound = false;
-
-                        task.IsTaskComplete = true;
-                        unitOfWork.Tasks.Add(task);
-                        return unitOfWork.Complete() > 0;
-                    }
-                    catch (Exception)
-                    {
-                        taskNotFound = true;
-                        return false;
-                    }
+                    return false;
                 }
                 else
                 {
-                    taskNotFound = true;
+                    taskInDB.IsTaskComplete = true;
+                }
+
+                try
+                {
+                    return unitOfWork.Complete() > 0;
+                }
+                catch (Exception ex)
+                {
+                    return false;
                 }
             }
-
-            return false;
         }
     }
 }

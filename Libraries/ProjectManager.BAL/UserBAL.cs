@@ -62,8 +62,9 @@ namespace ProjectManager.BAL
             }
         }
 
-        public bool DeleteUser(int userId)
+        public bool DeleteUser(int userId, out bool isUserRecordInUse)
         {
+            isUserRecordInUse = false;
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
                 var userInDB = unitOfWork.Users.Get(userId);

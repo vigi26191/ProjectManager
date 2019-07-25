@@ -73,14 +73,6 @@
     <Compile Include="Migrations\201907181402062_AddedIsTaskCompleteFieldtoTaskTable.Designer.cs">
       <DependentUpon>201907181402062_AddedIsTaskCompleteFieldtoTaskTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201907201134489_AddedRelationBetweenProjectAndUserTables.cs" />
-    <Compile Include="Migrations\201907201134489_AddedRelationBetweenProjectAndUserTables.Designer.cs">
-      <DependentUpon>201907201134489_AddedRelationBetweenProjectAndUserTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201907220641008_RemovedRequiredRelationBetweenProjectAndUserTables.cs" />
-    <Compile Include="Migrations\201907220641008_RemovedRequiredRelationBetweenProjectAndUserTables.Designer.cs">
-      <DependentUpon>201907220641008_RemovedRequiredRelationBetweenProjectAndUserTables.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201907220746097_AddedUniqueConstraintToEmployeeIdColumnInUsersTable.cs" />
     <Compile Include="Migrations\201907220746097_AddedUniqueConstraintToEmployeeIdColumnInUsersTable.Designer.cs">
       <DependentUpon>201907220746097_AddedUniqueConstraintToEmployeeIdColumnInUsersTable.cs</DependentUpon>
@@ -88,6 +80,30 @@
     <Compile Include="Migrations\201907220944235_AddedNewColumnIsProjectSuspendedToProjectsTable.cs" />
     <Compile Include="Migrations\201907220944235_AddedNewColumnIsProjectSuspendedToProjectsTable.Designer.cs">
       <DependentUpon>201907220944235_AddedNewColumnIsProjectSuspendedToProjectsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907240516337_RemovedRelationBetweenUserandTable.cs" />
+    <Compile Include="Migrations\201907240516337_RemovedRelationBetweenUserandTable.Designer.cs">
+      <DependentUpon>201907240516337_RemovedRelationBetweenUserandTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907240736261_AddingOneToManyRelationBetweenUserAndProject.cs" />
+    <Compile Include="Migrations\201907240736261_AddingOneToManyRelationBetweenUserAndProject.Designer.cs">
+      <DependentUpon>201907240736261_AddingOneToManyRelationBetweenUserAndProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907240938313_AddingOneToManyRelationBetweenTaskProjectAndTaskUser.cs" />
+    <Compile Include="Migrations\201907240938313_AddingOneToManyRelationBetweenTaskProjectAndTaskUser.Designer.cs">
+      <DependentUpon>201907240938313_AddingOneToManyRelationBetweenTaskProjectAndTaskUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907250445270_AddingParentTaskIdToTasksTable.cs" />
+    <Compile Include="Migrations\201907250445270_AddingParentTaskIdToTasksTable.Designer.cs">
+      <DependentUpon>201907250445270_AddingParentTaskIdToTasksTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907250500210_ChangingTaskPriorityFieldToNullableinTasksTable.cs" />
+    <Compile Include="Migrations\201907250500210_ChangingTaskPriorityFieldToNullableinTasksTable.Designer.cs">
+      <DependentUpon>201907250500210_ChangingTaskPriorityFieldToNullableinTasksTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907250517582_ChangingParentTaskIdToNullableFieldInTasksTable.cs" />
+    <Compile Include="Migrations\201907250517582_ChangingParentTaskIdToNullableFieldInTasksTable.Designer.cs">
+      <DependentUpon>201907250517582_ChangingParentTaskIdToNullableFieldInTasksTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -111,17 +127,29 @@
     <EmbeddedResource Include="Migrations\201907181402062_AddedIsTaskCompleteFieldtoTaskTable.resx">
       <DependentUpon>201907181402062_AddedIsTaskCompleteFieldtoTaskTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907201134489_AddedRelationBetweenProjectAndUserTables.resx">
-      <DependentUpon>201907201134489_AddedRelationBetweenProjectAndUserTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201907220641008_RemovedRequiredRelationBetweenProjectAndUserTables.resx">
-      <DependentUpon>201907220641008_RemovedRequiredRelationBetweenProjectAndUserTables.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907220746097_AddedUniqueConstraintToEmployeeIdColumnInUsersTable.resx">
       <DependentUpon>201907220746097_AddedUniqueConstraintToEmployeeIdColumnInUsersTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201907220944235_AddedNewColumnIsProjectSuspendedToProjectsTable.resx">
       <DependentUpon>201907220944235_AddedNewColumnIsProjectSuspendedToProjectsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907240516337_RemovedRelationBetweenUserandTable.resx">
+      <DependentUpon>201907240516337_RemovedRelationBetweenUserandTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907240736261_AddingOneToManyRelationBetweenUserAndProject.resx">
+      <DependentUpon>201907240736261_AddingOneToManyRelationBetweenUserAndProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907240938313_AddingOneToManyRelationBetweenTaskProjectAndTaskUser.resx">
+      <DependentUpon>201907240938313_AddingOneToManyRelationBetweenTaskProjectAndTaskUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907250445270_AddingParentTaskIdToTasksTable.resx">
+      <DependentUpon>201907250445270_AddingParentTaskIdToTasksTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907250500210_ChangingTaskPriorityFieldToNullableinTasksTable.resx">
+      <DependentUpon>201907250500210_ChangingTaskPriorityFieldToNullableinTasksTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907250517582_ChangingParentTaskIdToNullableFieldInTasksTable.resx">
+      <DependentUpon>201907250517582_ChangingParentTaskIdToNullableFieldInTasksTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

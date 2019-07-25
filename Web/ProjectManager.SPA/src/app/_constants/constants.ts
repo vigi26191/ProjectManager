@@ -1,5 +1,9 @@
 export const CONSTANTS = {
     ADD: 'Add',
     UPDATE: 'Update',
-    CONST_DATE_FORMAT: 'DD-MMM-YYYY'
+
+    CONST_DATE_FORMAT: 'DD-MMM-YYYY',
+
+    CONST_ADD_TASK: 'CONST_ADD_TASK',
+    CONST_VIEW_TASK: 'CONST_VIEW_TASK'
 };

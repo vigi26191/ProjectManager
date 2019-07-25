@@ -44,6 +44,20 @@ namespace ProjectManager.API.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        [Route("lookupProject")]
+        public IHttpActionResult GetProjectLookupData()
+        {
+            var lookupData = _projectBAL.GetProjectLookupData();
+
+            if (lookupData != null)
+            {
+                return Ok(lookupData);
+            }
+
+            return NotFound();
+        }
+
         [HttpPost]
         [Route("saveProject")]
         public IHttpActionResult SaveProject(ProjectDTO project)
@@ -71,11 +85,16 @@ namespace ProjectManager.API.Controllers
         [Route("suspendProject/{projectId:int}")]
         public IHttpActionResult SuspendProject(int projectId)
         {
-            var result = _projectBAL.SuspendProject(projectId);
+            bool isProjectRecordInUse = false;
+            var result = _projectBAL.SuspendProject(projectId, out isProjectRecordInUse);
 
             if (result)
             {
-                return Ok($"{Messages.PROJECT_SUSPENDED_SUCCESS}");
+                return Ok(Messages.PROJECT_SUSPENDED_SUCCESS);
+            }
+            else if (isProjectRecordInUse)
+            {
+                return BadRequest(Messages.PROJECT_SUSPENDED_FAILURE);
             }
             else
             {

@@ -19,9 +19,6 @@ namespace ProjectManager.DAL.EntityConfigurations
             Property(p => p.EmployeeId).IsRequired();
 
             HasIndex(h => h.EmployeeId).IsUnique();
-
-            HasOptional(h => h.Project).WithMany(w => w.Users)
-                .HasForeignKey(f => f.ProjectId).WillCascadeOnDelete(false);
         }
     }
 }

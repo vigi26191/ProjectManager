@@ -71,11 +71,16 @@ namespace ProjectManager.API.Controllers
         [Route("removeUser/{userId:int}")]
         public IHttpActionResult DeleteUser(int userId)
         {
-            var result = _userBAL.DeleteUser(userId);
+            bool isUserRecordInUse = false;
+            var result = _userBAL.DeleteUser(userId, out isUserRecordInUse);
 
             if (result)
             {
-                return Ok($"{Messages.DELETE_SUCCESS}");
+                return Ok(Messages.DELETE_SUCCESS);
+            }
+            else if (isUserRecordInUse)
+            {
+                return BadRequest(Messages.USER_DELTE_FAILURE);
             }
             else
             {

@@ -7,5 +7,6 @@ C:\ProjectManager\Web\ProjectManager.API.Tests\bin\Debug\Microsoft.VisualStudio.
 C:\ProjectManager\Web\ProjectManager.API.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
 C:\ProjectManager\Web\ProjectManager.API.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\ProjectManager\Web\ProjectManager.API.Tests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\ProjectManager\Web\ProjectManager.API.Tests\obj\Debug\ProjectManager.API.Tests.csprojResolveAssemblyReference.cache
 C:\ProjectManager\Web\ProjectManager.API.Tests\obj\Debug\ProjectManager.API.Tests.dll
 C:\ProjectManager\Web\ProjectManager.API.Tests\obj\Debug\ProjectManager.API.Tests.pdb

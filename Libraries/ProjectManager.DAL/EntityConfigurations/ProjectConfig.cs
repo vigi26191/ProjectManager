@@ -21,6 +21,9 @@ namespace ProjectManager.DAL.EntityConfigurations
             Property(p => p.ProjectPriority).IsRequired();
 
             Property(p => p.IsProjectSuspended).IsOptional();
+
+            HasRequired(h => h.User).WithMany(u => u.Projects)
+                .HasForeignKey(p => p.UserId).WillCascadeOnDelete(false);
         }
     }
 }

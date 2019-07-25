@@ -46,6 +46,9 @@
     <Compile Include="Domain\Task.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="DTO\ProjectDTO.cs" />
+    <Compile Include="DTO\ProjectLookupDTO.cs" />
+    <Compile Include="DTO\TaskDTO.cs" />
+    <Compile Include="DTO\TaskLookupDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Messages\Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

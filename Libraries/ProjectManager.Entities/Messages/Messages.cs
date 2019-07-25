@@ -6,7 +6,11 @@
 
         public const string DELETE_SUCCESS = "Deleted successfully.";
 
+        public const string USER_DELTE_FAILURE = "Cannot delete user. User is tagged to active projects/tasks.";
+
         public const string PROJECT_SUSPENDED_SUCCESS = "Project suspended successfully.";
+
+        public const string PROJECT_SUSPENDED_FAILURE = "Cannot suspend project. Project is mapped to active tasks.";
 
         public const string TASK_END_SUCCESS = "Task has been ended.";
     }

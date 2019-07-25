@@ -10,7 +10,9 @@ namespace ProjectManager.Entities.Domain
 
         [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.PROJECT_NAME_REQUIRED)]
         public string ProjectName { get; set; }
+
         public DateTime? ProjectStartDate { get; set; }
+
         public DateTime? ProjectEndDate { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.PRIORITY_REQUIRED)]
@@ -21,7 +23,11 @@ namespace ProjectManager.Entities.Domain
 
         #region Navigation Properties
 
-        public ICollection<User> Users { get; set; }
+        public User User { get; set; }
+
+        public int UserId { get; set; }
+
+        public ICollection<Task> Tasks { get; set; }
 
         #endregion
     }
