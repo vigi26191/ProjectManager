@@ -89,7 +89,7 @@ namespace ProjectManager.API.Controllers
 
             if (result)
             {
-                return Ok($"{Messages.TASK_END_SUCCESS}");
+                return Ok(Messages.TASK_END_SUCCESS);
             }
             else
             {
