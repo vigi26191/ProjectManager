@@ -8,7 +8,7 @@
 
         public const string USER_DELTE_FAILURE = "Cannot delete user. User is tagged to active projects/tasks.";
 
-        public const string PROJECT_SUSPENDED_SUCCESS = "Project suspended successfully.";
+        public const string PROJECT_SUSPENDED_SUCCESS = "Project and all its task(s) has been suspended/completed successfully.";
 
         public const string PROJECT_SUSPENDED_FAILURE = "Cannot suspend project. Project is mapped to active tasks.";
 

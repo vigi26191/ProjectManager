@@ -85,16 +85,11 @@ namespace ProjectManager.API.Controllers
         [Route("suspendProject/{projectId:int}")]
         public IHttpActionResult SuspendProject(int projectId)
         {
-            bool isProjectRecordInUse = false;
-            var result = _projectBAL.SuspendProject(projectId, out isProjectRecordInUse);
+            var result = _projectBAL.SuspendProject(projectId);
 
             if (result)
             {
                 return Ok(Messages.PROJECT_SUSPENDED_SUCCESS);
-            }
-            else if (isProjectRecordInUse)
-            {
-                return BadRequest(Messages.PROJECT_SUSPENDED_FAILURE);
             }
             else
             {

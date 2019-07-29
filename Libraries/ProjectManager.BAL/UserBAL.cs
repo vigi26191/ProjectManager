@@ -84,6 +84,11 @@ namespace ProjectManager.BAL
                 }
                 catch (Exception ex)
                 {
+                    if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
+                    {
+                        isUserRecordInUse = true;
+                    }
+
                     return false;
                 }
             }

@@ -176,7 +176,7 @@ export class TasksComponent implements OnInit {
       TaskEndDate: task.TaskEndDate == null ? null : new Date(task.TaskEndDate),
       UserId: task.UserId
     });
-    debugger;
+
     if (task.IsParentTask) { this.toggleTaskFormFields(this.NotParentTaskFields, true); }
 
     this.router.navigate([ROUTE_PATH.TASKS, ROUTE_PATH.ADD_TASK]);

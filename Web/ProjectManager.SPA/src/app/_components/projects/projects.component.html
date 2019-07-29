@@ -92,7 +92,7 @@
                     <td>
                         <div *ngIf="!project.IsProjectSuspended">
                             <button class="btn btn-sm btn-secondary mr-1"
-                                (click)="editProject(project.ProjectId)">Edit</button>
+                                (click)="editProject(project)">Edit</button>
                             <button class="btn btn-sm btn-secondary"
                                 (click)="suspendProject(project.ProjectId)">Suspended</button>
                         </div>

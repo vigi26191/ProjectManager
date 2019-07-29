@@ -80,9 +80,8 @@ namespace ProjectManager.BAL
             }
         }
 
-        public bool SuspendProject(int projectId, out bool isProjectRecordInUse)
+        public bool SuspendProject(int projectId)
         {
-            isProjectRecordInUse = false;
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
                 var projectInDB = unitOfWork.Projects.Get(projectId);
@@ -94,6 +93,12 @@ namespace ProjectManager.BAL
                 else
                 {
                     projectInDB.IsProjectSuspended = true;
+
+                    var tasks = unitOfWork.Tasks.GetAll().Where(w => w.ProjectId == projectId).ToList();
+                    foreach (var task in tasks)
+                    {
+                        task.IsTaskComplete = true;
+                    }
                 }
 
                 try

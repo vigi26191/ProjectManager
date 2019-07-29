@@ -1,99 +1,82 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { UsersService } from './users.service';
-import { IUserModel } from '../_models/user.model';
+import { IProjectModel } from '../_models/project.model';
+import { ProjectsService } from './projects.service';
 
-describe('TaskManagerService', () => {
+describe('ProjectsService', () => {
 
-  let service: UsersService;
+  let service: ProjectsService;
   let httpMock: HttpTestingController;
 
-  //let DUMMY_USERS: IUserModel[] = [];
+  let DUMMY_PROJECTS: IProjectModel[] = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [UsersService],
+      providers: [ProjectsService],
       imports: [HttpClientTestingModule]
     });
 
-    service = TestBed.get(UsersService);
+    service = TestBed.get(ProjectsService);
     httpMock = TestBed.get(HttpTestingController);
 
-    // DUMMY_USERS = [
-    //   {
-    //     Id: 1, TaskName: 'Task1', Priority: 1, StartDate: new Date(), EndDate: new Date(),
-    //     ParentTask: null, ParentTaskId: null, IsTaskComplete: false
-    //   },
-    //   {
-    //     Id: 2, TaskName: 'Task2', Priority: 2, StartDate: new Date(), EndDate: new Date(),
-    //     ParentTask: null, ParentTaskId: null, IsTaskComplete: false
-    //   }
-    // ];
+    DUMMY_PROJECTS = [
+      {
+        ProjectId: 1, ProjectName: 'Project1', ProjectStartDate: new Date(), ProjectEndDate: new Date(),
+        ProjectPriority: 1, UserId: 1, UserName: 'User1', IsProjectSuspended: null
+      },
+      {
+        ProjectId: 2, ProjectName: 'Project2', ProjectStartDate: new Date(), ProjectEndDate: new Date(),
+        ProjectPriority: 2, UserId: 2, UserName: 'User2', IsProjectSuspended: null
+      }
+    ];
   });
 
   afterEach(() => { httpMock.verify(); });
 
-  // it('should get tasks and should return an Observable<ITaskManagerModel[]>', () => {
-  //   service.getTasks().subscribe(tasks => {
-  //     expect(tasks.length).toBe(2);
-  //     expect(tasks).toEqual(DUMMY_TASKS);
-  //   });
+  it('should get projects and should return an Observable<IProjectModel[]>', () => {
+    service.getProjects().subscribe(response => {
+      expect(response.length).toBe(2);
+      expect(response).toEqual(DUMMY_PROJECTS);
+    });
 
-  //   const req = httpMock.expectOne(service.controllerRoute + '/lookupTaskManager');
-  //   expect(req.request.method).toBe('GET');
-  //   req.flush(DUMMY_TASKS);
-  // });
+    const req = httpMock.expectOne(service.controllerRoute + '/getProjects');
+    expect(req.request.method).toBe('GET');
+    req.flush(DUMMY_PROJECTS);
+  });
 
-  // it('should return filtered items', () => {
-  //   const filterItems: ITaskManagerFilterCriteria = {
-  //     ParentTaskId: null, TaskName: 'T', StartDate: null, EndDate: null,
-  //     PriorityFrom: null, PriorityTo: null, IsTaskComplete: null
-  //   };
+  it('should post correct data', () => {
+    const user: IProjectModel = {
+      ProjectId: 3, ProjectName: 'Project3', ProjectStartDate: new Date(), ProjectEndDate: new Date(),
+      ProjectPriority: 3, UserId: 3, UserName: 'User3', IsProjectSuspended: false
+    };
 
-  //   service.filterTaskManagerData(filterItems).subscribe(
-  //     (task: any) => {
-  //       expect(task[0].TaskName.indexOf(filterItems.TaskName) !== -1).toBe(true);
-  //       expect(task[1].TaskName.indexOf(filterItems.TaskName) !== -1).toBe(true);
-  //       expect(task.length).toBe(2);
-  //     }
-  //   );
+    service.saveProject(user)
+      .subscribe((response: any) => {
+        expect(response.ProjectName).toBe('Project3');
+        expect(response.UserId).toBe(3);
+        expect(response.IsProjectSuspended).toBe(false);
+      });
 
-  //   const req = httpMock.expectOne(service.controllerRoute + '/filterTasks');
-  //   expect(req.request.method).toBe('POST');
-  //   req.flush(DUMMY_TASKS);
-  // });
+    const req = httpMock.expectOne(service.controllerRoute + '/saveProject');
+    expect(req.request.method).toBe('POST');
+    req.flush(user);
+  });
 
-  // it('should post correct data', () => {
-  //   const newTask: ITaskManagerModel = {
-  //     Id: 3, TaskName: 'Task3', Priority: 1, StartDate: new Date(), EndDate: new Date(),
-  //     ParentTask: null, ParentTaskId: null, IsTaskComplete: false
-  //   };
+  it('should suspend project based on projectId parameter', () => {
+    const project: IProjectModel = {
+      ProjectId: 4, ProjectName: 'Project4', ProjectStartDate: new Date(), ProjectEndDate: new Date(),
+      ProjectPriority: 4, UserId: 4, UserName: 'User4', IsProjectSuspended: true
+    };
 
-  //   service.saveTaskManager(newTask)
-  //     .subscribe((task: any) => {
-  //       expect(task.TaskName).toBe('Task3');
-  //     });
+    service.suspendProject(project.ProjectId)
+      .subscribe((response: any) => {
+        expect(response.IsProjectSuspended).toBe(true);
+      });
 
-  //   const req = httpMock.expectOne(service.controllerRoute + '/saveTask');
-  //   expect(req.request.method).toBe('POST');
-  //   req.flush(newTask);
-  // });
-
-  // it('should end task based on id parameter', () => {
-  //   const newTask: ITaskManagerModel = {
-  //     Id: 3, TaskName: 'Task3', Priority: 1, StartDate: new Date(), EndDate: new Date(),
-  //     ParentTask: null, ParentTaskId: null, IsTaskComplete: true
-  //   };
-
-  //   service.endTask(newTask.Id)
-  //     .subscribe((task: any) => {
-  //       expect(task.IsTaskComplete).toBe(true);
-  //     });
-
-  //   const req = httpMock.expectOne(service.controllerRoute + '/endTask/' + newTask.Id);
-  //   expect(req.request.method).toBe('POST');
-  //   req.flush(newTask);
-  // });
+    const req = httpMock.expectOne(service.controllerRoute + '/suspendProject/' + project.ProjectId);
+    expect(req.request.method).toBe('POST');
+    req.flush(project);
+  });
 
 });

@@ -16,7 +16,7 @@ export class NavComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.router.navigate([ROUTE_PATH.PROJECTS]);
+    this.router.navigate([ROUTE_PATH.USERS]);
   }
 
 }

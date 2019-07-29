@@ -22,7 +22,7 @@ C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migr
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddingOneToManyRelationBetweenTaskProjectAndTaskUser.resources
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.AddingParentTaskIdToTasksTable.resources
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.ChangingTaskPriorityFieldToNullableinTasksTable.resources
+C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.ChangingParentTaskIdToNullableFieldInTasksTable.resources
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.csproj.GenerateResource.Cache
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.dll
 C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.pdb
-C:\ProjectManager\Libraries\ProjectManager.DAL\obj\Debug\ProjectManager.DAL.Migrations.ChangingParentTaskIdToNullableFieldInTasksTable.resources

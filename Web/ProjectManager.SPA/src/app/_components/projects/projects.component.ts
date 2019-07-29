@@ -119,7 +119,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   submitProjectForm(projectForm: FormGroup): void {
-    if (this.validateTaskManagerForm(projectForm)) {
+    if (this.validateProjectForm(projectForm)) {
       const projectRequest = this.projectForm.getRawValue();
 
       if (this.projectModel != null && this.projectModel.ProjectId != null && this.projectModel.ProjectId > 0) {
@@ -142,7 +142,7 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  validateTaskManagerForm(form: FormGroup): boolean {
+  validateProjectForm(form: FormGroup): boolean {
 
     if (form.invalid) {
       Object.keys(this.ProjectForm).forEach(key => {
@@ -162,8 +162,8 @@ export class ProjectsComponent implements OnInit {
     return true;
   }
 
-  editProject(projectId: number): void {
-    const project = this.projects.filter(f => f.ProjectId === projectId)[0];
+  editProject(project: IProjectModel): void {
+    //const project = this.projects.filter(f => f.ProjectId === projectId)[0];
 
     this.projectSaveType = CONSTANTS.UPDATE;
 

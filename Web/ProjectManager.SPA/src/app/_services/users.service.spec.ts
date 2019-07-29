@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { UsersService } from './users.service';
 import { IUserModel } from '../_models/user.model';
+import { UsersService } from './users.service';
 
-describe('TaskManagerService', () => {
+describe('UsersService', () => {
 
   let service: UsersService;
   let httpMock: HttpTestingController;
 
-  //let DUMMY_USERS: IUserModel[] = [];
+  let DUMMY_USERS: IUserModel[] = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,80 +20,66 @@ describe('TaskManagerService', () => {
     service = TestBed.get(UsersService);
     httpMock = TestBed.get(HttpTestingController);
 
-    // DUMMY_USERS = [
-    //   {
-    //     Id: 1, TaskName: 'Task1', Priority: 1, StartDate: new Date(), EndDate: new Date(),
-    //     ParentTask: null, ParentTaskId: null, IsTaskComplete: false
-    //   },
-    //   {
-    //     Id: 2, TaskName: 'Task2', Priority: 2, StartDate: new Date(), EndDate: new Date(),
-    //     ParentTask: null, ParentTaskId: null, IsTaskComplete: false
-    //   }
-    // ];
+    DUMMY_USERS = [
+      {
+        UserId: 1, FirstName: 'fName1', LastName: 'lName1', EmployeeId: 11
+      },
+      {
+        UserId: 2, FirstName: 'fName2', LastName: 'lName2', EmployeeId: 22
+      }
+    ];
   });
 
   afterEach(() => { httpMock.verify(); });
 
-  // it('should get tasks and should return an Observable<ITaskManagerModel[]>', () => {
-  //   service.getTasks().subscribe(tasks => {
-  //     expect(tasks.length).toBe(2);
-  //     expect(tasks).toEqual(DUMMY_TASKS);
-  //   });
+  it('should get users and should return an Observable<IUserModel[]>', () => {
+    service.getUsers().subscribe(response => {
+      expect(response.length).toBe(2);
+      expect(response).toEqual(DUMMY_USERS);
+    });
 
-  //   const req = httpMock.expectOne(service.controllerRoute + '/lookupTaskManager');
-  //   expect(req.request.method).toBe('GET');
-  //   req.flush(DUMMY_TASKS);
-  // });
+    const req = httpMock.expectOne(service.controllerRoute + '/getUsers');
+    expect(req.request.method).toBe('GET');
+    req.flush(DUMMY_USERS);
+  });
 
-  // it('should return filtered items', () => {
-  //   const filterItems: ITaskManagerFilterCriteria = {
-  //     ParentTaskId: null, TaskName: 'T', StartDate: null, EndDate: null,
-  //     PriorityFrom: null, PriorityTo: null, IsTaskComplete: null
-  //   };
+  it('should post correct data', () => {
+    const user: IUserModel = {
+      UserId: 3, FirstName: 'fName3', LastName: 'lName3', EmployeeId: 33
+    };
 
-  //   service.filterTaskManagerData(filterItems).subscribe(
-  //     (task: any) => {
-  //       expect(task[0].TaskName.indexOf(filterItems.TaskName) !== -1).toBe(true);
-  //       expect(task[1].TaskName.indexOf(filterItems.TaskName) !== -1).toBe(true);
-  //       expect(task.length).toBe(2);
-  //     }
-  //   );
+    service.saveUser(user)
+      .subscribe((response: any) => {
+        expect(response.FirstName).toBe('fName3');
+        expect(response.LastName).toBe('lName3');
+        expect(response.EmployeeId).toBe(33);
+      });
 
-  //   const req = httpMock.expectOne(service.controllerRoute + '/filterTasks');
-  //   expect(req.request.method).toBe('POST');
-  //   req.flush(DUMMY_TASKS);
-  // });
+    const req = httpMock.expectOne(service.controllerRoute + '/saveUser');
+    expect(req.request.method).toBe('POST');
+    req.flush(user);
+  });
 
-  // it('should post correct data', () => {
-  //   const newTask: ITaskManagerModel = {
-  //     Id: 3, TaskName: 'Task3', Priority: 1, StartDate: new Date(), EndDate: new Date(),
-  //     ParentTask: null, ParentTaskId: null, IsTaskComplete: false
-  //   };
+  it('should delete user based on UserId parameter', () => {
+    const users = [
+      {
+        UserId: 4, FirstName: 'fName4', LastName: 'lName4', EmployeeId: 44
+      },
+      {
+        UserId: 5, FirstName: 'fName5', LastName: 'lName5', EmployeeId: 55
+      }
+    ];
 
-  //   service.saveTaskManager(newTask)
-  //     .subscribe((task: any) => {
-  //       expect(task.TaskName).toBe('Task3');
-  //     });
+    const userToBeRemoved = users[0];
 
-  //   const req = httpMock.expectOne(service.controllerRoute + '/saveTask');
-  //   expect(req.request.method).toBe('POST');
-  //   req.flush(newTask);
-  // });
+    service.removeUser(userToBeRemoved.UserId)
+      .subscribe((response: any) => {
+        expect(this.users.length).toBe(1);
+      });
 
-  // it('should end task based on id parameter', () => {
-  //   const newTask: ITaskManagerModel = {
-  //     Id: 3, TaskName: 'Task3', Priority: 1, StartDate: new Date(), EndDate: new Date(),
-  //     ParentTask: null, ParentTaskId: null, IsTaskComplete: true
-  //   };
-
-  //   service.endTask(newTask.Id)
-  //     .subscribe((task: any) => {
-  //       expect(task.IsTaskComplete).toBe(true);
-  //     });
-
-  //   const req = httpMock.expectOne(service.controllerRoute + '/endTask/' + newTask.Id);
-  //   expect(req.request.method).toBe('POST');
-  //   req.flush(newTask);
-  // });
+    const req = httpMock.expectOne(service.controllerRoute + '/removeUser/' + userToBeRemoved.UserId);
+    expect(req.request.method).toBe('POST');
+    req.flush(users);
+  });
 
 });

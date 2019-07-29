@@ -80,13 +80,11 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  editUser(userId: number): void {
-    const userToEdit = this.users.filter(f => f.UserId === userId)[0];
-
-    this.UserForm['FirstName'].setValue(userToEdit.FirstName);
-    this.UserForm['LastName'].setValue(userToEdit.LastName);
-    this.UserForm['EmployeeId'].setValue(userToEdit.EmployeeId);
-    this.userModel = userToEdit;
+  editUser(user: IUserModel): void {
+    this.UserForm['FirstName'].setValue(user.FirstName);
+    this.UserForm['LastName'].setValue(user.LastName);
+    this.UserForm['EmployeeId'].setValue(user.EmployeeId);
+    this.userModel = user;
 
     this.userSaveType = CONSTANTS.UPDATE;
   }
