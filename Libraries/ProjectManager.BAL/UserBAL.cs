@@ -29,7 +29,7 @@ namespace ProjectManager.BAL
 
             using (var unitOfWork = new UnitOfWork(new ApplicationDbContext()))
             {
-                users = Mapper.Map<List<UserDTO>>(unitOfWork.Users.GetAll().ToList());
+                users = Mapper.Map<List<UserDTO>>(unitOfWork.Users.GetAll().Where(w => w.IsActive == true).ToList());
             }
 
             return users;
@@ -44,10 +44,12 @@ namespace ProjectManager.BAL
                 if (userInDB == null)
                 {
                     var newUser = Mapper.Map<User>(user);
+                    newUser.IsActive = true;
                     unitOfWork.Users.Add(newUser);
                 }
                 else
                 {
+                    user.IsActive = true;
                     Mapper.Map(user, userInDB);
                 }
 
@@ -75,7 +77,14 @@ namespace ProjectManager.BAL
                 }
                 else
                 {
-                    unitOfWork.Users.Remove(userInDB);
+                    if (unitOfWork.Projects.GetAll().Where(w => w.UserId == userId).Count() > 0 ||
+                        unitOfWork.Tasks.GetAll().Where(w => w.UserId == userId).Count() > 0)
+                    {
+                        isUserRecordInUse = true;
+                        return false;
+                    }
+
+                    userInDB.IsActive = false;
                 }
 
                 try
@@ -84,11 +93,6 @@ namespace ProjectManager.BAL
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException.InnerException.Message.Contains("The DELETE statement conflicted with the REFERENCE constraint"))
-                    {
-                        isUserRecordInUse = true;
-                    }
-
                     return false;
                 }
             }

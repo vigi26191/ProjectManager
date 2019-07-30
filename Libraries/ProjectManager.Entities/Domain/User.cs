@@ -16,6 +16,8 @@ namespace ProjectManager.Entities.Domain
         [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.USER_EMPLOYEEID_REQUIRED)]
         public int EmployeeId { get; set; }
 
+        public bool IsActive { get; set; }
+
         #region Navigation Properties
 
         public ICollection<Project> Projects { get; set; }

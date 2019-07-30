@@ -8,7 +8,7 @@ declare let alertify: any;
 export class AlertifyService {
     private toastrOptions = {
         showCloseButton: true,
-        toastTimeout: 5000,
+        toastTimeout: 10000,
         position: 'top-right'
     };
 

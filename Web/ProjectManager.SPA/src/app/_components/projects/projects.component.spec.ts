@@ -53,23 +53,23 @@ describe('ProjectsComponent', () => {
     expect(component.validateProjectForm(form)).toBe(false);
   });
 
-  // it('editProject function should bind model to projectform when a project is to be edited', () => {
-  //   const project: IProjectModel = {
-  //     ProjectId: 1, ProjectName: 'Task1', ProjectPriority: 3,
-  //     ProjectStartDate: new Date(), ProjectEndDate: new Date(),
-  //     UserId: 1, UserName: null, IsProjectSuspended: null
-  //   };
+  it('editProject function should bind model to projectform when a project is to be edited', () => {
+    const project: IProjectModel = {
+      ProjectId: 1, ProjectName: 'Task1', ProjectPriority: 3,
+      ProjectStartDate: new Date(), ProjectEndDate: new Date(),
+      UserId: 1, UserName: null, IsProjectSuspended: null
+    };
 
-  //   component.editProject(project);
+    component.editProject(project);
 
-  //   expect(component.projectModel).toBe(project);
-  //   expect(component.projectSaveType).toBe(CONSTANTS.UPDATE);
-  //   expect(component.projectForm.get('ProjectName').value).toEqual(project.ProjectName);
-  //   expect(component.projectForm.get('ProjectPriority').value).toEqual(project.ProjectPriority);
-  //   expect(component.projectForm.get('ProjectStartDate').value).toEqual(project.ProjectStartDate);
-  //   expect(component.projectForm.get('ProjectEndDate').value).toEqual(project.ProjectEndDate);
-  //   expect(component.projectForm.get('UserId').value).toEqual(project.UserId);
-  // });
+    expect(component.projectModel).toBe(project);
+    expect(component.projectSaveType).toBe(CONSTANTS.UPDATE);
+    expect(component.projectForm.get('ProjectName').value).toEqual(project.ProjectName);
+    expect(component.projectForm.get('ProjectPriority').value).toEqual(project.ProjectPriority);
+    expect(component.projectForm.get('ProjectStartDate').value).toEqual(project.ProjectStartDate);
+    expect(component.projectForm.get('ProjectEndDate').value).toEqual(project.ProjectEndDate);
+    expect(component.projectForm.get('UserId').value).toEqual(project.UserId);
+  });
 
 
 });

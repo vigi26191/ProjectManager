@@ -17,7 +17,7 @@ describe('TasksComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, FormsModule, BsDatepickerModule,
+      imports: [RouterTestingModule, ReactiveFormsModule, FormsModule, BsDatepickerModule.forRoot(),
         HttpClientModule, DataTablesModule, ToastrModule.forRoot()],
       declarations: [TasksComponent],
     });

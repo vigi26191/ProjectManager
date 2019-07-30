@@ -14,5 +14,7 @@ namespace ProjectManager.Entities.DTO
 
         [Required(AllowEmptyStrings = false, ErrorMessage = ValidationMessages.USER_EMPLOYEEID_REQUIRED)]
         public int EmployeeId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-<div class="row mt-3" *ngIf="showAddTaskSection">
+<div class="row mt-3" [hidden]="!showAddTaskSection">
     <div id="add-task" class="col-md-12">
         <form id="taskForm" class="col-md-12" [formGroup]="taskForm" (ngSubmit)="submitTaskForm(taskForm)">
 
@@ -90,8 +90,8 @@
                 </div>
             </div>
 
-            <div class="form-group row">
-                <div class="col-md-1">
+            <div class="form-group row col-md-9 float-right">
+                <div class="col-md-2">
                     <button class="btn btn-sm btn-success">{{sectionButtonText}}</button>
                 </div>
                 <div class="col-md-1">
@@ -102,34 +102,44 @@
     </div>
 </div>
 
-<div class="row mt-3" *ngIf="showViewTaskSection">
-    <div id="view-task" class="col-md-12">
-        <table datatable [dtOptions]="dtOptions" class="row-border table table-sm hover">
-            <thead>
-                <tr>
-                    <th>Task</th>
-                    <th>Parent</th>
-                    <th>Priority</th>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let task of tasks">
-                    <td>{{ task.TaskName }}</td>
-                    <td>{{ task.ParentTaskName }}</td>
-                    <td>{{ task.TaskPriority }}</td>
-                    <td>{{ task.TaskStartDate | date: 'dd-MMM-yyyy'}}</td>
-                    <td>{{ task.TaskEndDate | date: 'dd-MMM-yyyy'}}</td>
-                    <td>
-                        <div *ngIf="!task.IsTaskComplete">
-                            <button class="btn btn-sm btn-secondary mr-1" (click)="editTask(task)">Edit</button>
-                            <button class="btn btn-sm btn-secondary" (click)="endTask(task.TaskId)">End Task</button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div class="col-md-12 mt-3" [hidden]="!showViewTaskSection">
+    <div class="card">
+        <div class="card-header">
+            <div class="float-left">
+                <h5>
+                    <strong>Tasks List</strong>
+                </h5>
+            </div>
+        </div>
+        <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border table table-sm hover">
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Parent</th>
+                        <th>Priority</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th data-orderable="false">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of tasks">
+                        <td style="width: 20%">{{ task.TaskName }}</td>
+                        <td style="width: 20%">{{ task.ParentTaskName }}</td>
+                        <td style="width: 10%">{{ task.TaskPriority }}</td>
+                        <td style="width: 15%">{{ task.TaskStartDate | date: 'dd-MMM-yyyy'}}</td>
+                        <td style="width: 15%">{{ task.TaskEndDate | date: 'dd-MMM-yyyy'}}</td>
+                        <td style="width: 20%">
+                            <div *ngIf="!task.IsTaskComplete">
+                                <button class="btn btn-sm btn-secondary mr-1" (click)="editTask(task)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" (click)="endTask(task.TaskId)">End
+                                    Task</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

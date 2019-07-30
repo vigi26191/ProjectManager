@@ -19,6 +19,8 @@ namespace ProjectManager.DAL.EntityConfigurations
             Property(p => p.EmployeeId).IsRequired();
 
             HasIndex(h => h.EmployeeId).IsUnique();
+
+            Property(p => p.IsActive).IsOptional();
         }
     }
 }

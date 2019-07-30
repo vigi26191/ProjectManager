@@ -39,7 +39,7 @@ namespace ProjectManager.API.Tests
         [TestMethod]
         public void TestGetProject()
         {
-            int projectId = 2;
+            int projectId = 1;
 
             var result = _projectController.GetProject(projectId) as OkNegotiatedContentResult<ProjectDTO>;
 
@@ -111,7 +111,7 @@ namespace ProjectManager.API.Tests
         {
             var project = new ProjectDTO()
             {
-                ProjectId = 1009,
+                ProjectId = 1,
                 ProjectName = "ProjectTest 1009",
                 ProjectPriority = 30,
                 ProjectStartDate = DateTime.Now,
@@ -162,7 +162,7 @@ namespace ProjectManager.API.Tests
         [TestMethod]
         public void TestSuspendProject_ShouldSuspendProject()
         {
-            int projectId = 1009;
+            int projectId = 1;
 
             var result = _projectController.SuspendProject(projectId) as OkNegotiatedContentResult<string>;
 

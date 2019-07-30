@@ -79,7 +79,7 @@ namespace ProjectManager.API.Tests
             {
                 FirstName = "Test FirstName",
                 LastName = "Test LastName",
-                EmployeeId = 12345
+                EmployeeId = 1234567
             };
 
             var result = _userController.SaveUser(user) as OkNegotiatedContentResult<string>;
@@ -113,12 +113,14 @@ namespace ProjectManager.API.Tests
         [TestMethod]
         public void TestDeleteUser_ShouldRemoveUser()
         {
-            int userId = 2008;
+            int userId = 3;
 
             var result = _userController.DeleteUser(userId) as OkNegotiatedContentResult<string>;
 
-            Assert.IsNotNull(result.Content);
-            Assert.AreEqual(Messages.DELETE_SUCCESS, result.Content);
+            var user = _userController.GetUser(userId) as OkNegotiatedContentResult<UserDTO>;
+
+            Assert.IsNotNull(user.Content);
+            Assert.AreEqual(false, user.Content.IsActive);
         }
 
         /// <summary>

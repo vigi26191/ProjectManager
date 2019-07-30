@@ -1,104 +1,128 @@
-<div id="add-task" class="col-md-12 mt-3">
-    <form id="projectForm" class="col-md-12" [formGroup]="projectForm" (ngSubmit)="submitProjectForm(projectForm)">
-
-        <div class="form-group row required">
-            <label class="col-md-2 col-form-label" for="ProjectName">Project Name</label>
-            <div class="col-md-5">
-                <input id="txtProjectName" name="ProjectName" class="form-control form-control-sm" type="text"
-                    formControlName="ProjectName" autocomplete="off"
-                    [class.is-invalid]="ProjectForm['ProjectName'].touched && ProjectForm['ProjectName'].invalid">
+<div class="col-md-12 mt-3">
+    <div class="card">
+        <div class="card-header">
+            <div class="float-left">
+                <h5>
+                    <strong>Projects List</strong>
+                </h5>
+            </div>
+            <div class="float-right">
+                <button class="btn btn-sm btn-primary" (click)="addNewProject(saveProjectTemplate)">
+                    Add Project
+                </button>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="chk" [(ngModel)]="isSetDateChecked"
-                    [ngModelOptions]="{standalone: true}" (change)="manageSetDateFields()">
-                <label class="form-check-label" for="chk">Set Start and End Date</label>
-            </div>
-
-            <div class="form-check form-check-inline">
-                <input id="txtProjectStartDate" name="ProjectStartDate" class="form-control form-control-sm" type="text"
-                    formControlName="ProjectStartDate" autocomplete="off" placeholder="Start Date" bsDatepicker
-                    [bsConfig]="datePickerConfig">
-            </div>
-
-            <div class="form-check form-check-inline">
-                <input id="txtProjectEndDate" name="ProjectEndDate" class="form-control form-control-sm" type="text"
-                    formControlName="ProjectEndDate" autocomplete="off" placeholder="End Date" bsDatepicker
-                    [bsConfig]="datePickerConfig">
-            </div>
+        <div class="card-body">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border table table-sm hover">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Priority</th>
+                        <th data-orderable="false">Status</th>
+                        <th data-orderable="false">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let project of projects">
+                        <td>{{ project.ProjectName }}</td>
+                        <td style="width: 15%">{{ project.ProjectStartDate | date: 'dd-MMM-yyyy'}}</td>
+                        <td style="width: 15%">{{ project.ProjectEndDate | date: 'dd-MMM-yyyy'}}</td>
+                        <td style="width: 10%">{{ project.ProjectPriority }}</td>
+                        <td style="width: 10%">{{ project.IsProjectSuspended ? 'Suspended' : 'Active' }}</td>
+                        <td style="width: 20%">
+                            <div *ngIf="!project.IsProjectSuspended">
+                                <button class="btn btn-sm btn-secondary mr-1"
+                                    (click)="editProject(project)">Edit</button>
+                                <button class="btn btn-sm btn-secondary"
+                                    (click)="suspendProject(project.ProjectId)">Suspend</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <div class="form-group row">
-            <label class="col-md-2 col-form-label" for="ProjectPriority">Priority</label>
-            <div class="col-md-4">
-                <input id="rngProjectPriority" name="ProjectPriority" class="form-control form-control-sm" type="range"
-                    formControlName="ProjectPriority" list="tickMarks" [class.is-invalid]="ProjectForm['ProjectPriority'].touched &&
-                    ProjectForm['ProjectPriority'].invalid" [value]="rangeSliderConfig.value"
-                    [min]="rangeSliderConfig.min" [max]="rangeSliderConfig.max" [step]="rangeSliderConfig.step"
-                    oninput="opPriority.value = rngProjectPriority.value">
-                <datalist id="tickMarks">
-                    <option [value]="mark" [label]="mark" *ngFor="let mark of rangeSliderTickMarks">{{mark}}
-                    </option>
-                </datalist>
-                <output id="opPriority">{{rangeSliderConfig.value}}</output>
-            </div>
-        </div>
-
-        <div class="form-group row required">
-            <label class="col-md-2 col-form-label" for="UserId">Manager</label>
-            <div class="col-md-4">
-                <select class="form-control form-control-sm" id="ddlUserId" name="UserId" formControlName="UserId"
-                    [class.is-invalid]="ProjectForm['UserId'].touched && ProjectForm['UserId'].invalid">
-                    <option [ngValue]="null">Please select</option>
-                    <option [value]="source.Key" *ngFor="let source of projectLookup.Users">
-                        {{source.Value}}
-                    </option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <div class="col-md-1">
-                <button class="btn btn-sm btn-success">{{projectSaveType}}</button>
-            </div>
-            <div class="col-md-1">
-                <button class="btn btn-sm btn-secondary" type="button" (click)="resetProjectForm()">Reset</button>
-            </div>
-        </div>
-
-    </form>
-
-    <div *ngIf="projects.length > 0">
-        <table datatable [dtOptions]="dtOptions" class="row-border table table-sm hover">
-            <thead>
-                <tr>
-                    <th>Project</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let project of projects">
-                    <td>{{ project.ProjectName }}</td>
-                    <td>{{ project.ProjectStartDate | date: 'dd-MMM-yyyy'}}</td>
-                    <td>{{ project.ProjectEndDate | date: 'dd-MMM-yyyy'}}</td>
-                    <td>{{ project.ProjectPriority }}</td>
-                    <td>{{ project.IsProjectSuspended ? 'Suspended' : 'Active' }}</td>
-                    <td>
-                        <div *ngIf="!project.IsProjectSuspended">
-                            <button class="btn btn-sm btn-secondary mr-1"
-                                (click)="editProject(project)">Edit</button>
-                            <button class="btn btn-sm btn-secondary"
-                                (click)="suspendProject(project.ProjectId)">Suspended</button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>
+
+<ng-template #saveProjectTemplate>
+    <div class="col-md-12">
+        <div class="modal-header">
+            <h5 class="modal-title">{{projectSaveType}} Project</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                (click)="closeProjectUserModal()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="projectForm" class="col-md-12" [formGroup]="projectForm"
+                (ngSubmit)="submitProjectForm(projectForm)">
+
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="ProjectName">Project Name</label>
+                    <div class="col-md-6">
+                        <input id="txtProjectName" name="ProjectName" class="form-control form-control-sm" type="text"
+                            formControlName="ProjectName" autocomplete="off"
+                            [class.is-invalid]="ProjectForm['ProjectName'].touched && ProjectForm['ProjectName'].invalid">
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="chk" [(ngModel)]="isSetDateChecked"
+                                [ngModelOptions]="{standalone: true}" (change)="manageSetDateFields()">
+                            <label class="form-check-label" for="chk">Set Start and End Date</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input id="txtProjectStartDate" name="ProjectStartDate" class="form-control form-control-sm"
+                                type="text" formControlName="ProjectStartDate" autocomplete="off"
+                                placeholder="Start Date" bsDatepicker [bsConfig]="datePickerConfig">
+                            &nbsp;&nbsp;&nbsp;
+                            <input id="txtProjectEndDate" name="ProjectEndDate" class="form-control form-control-sm"
+                                type="text" formControlName="ProjectEndDate" autocomplete="off" placeholder="End Date"
+                                bsDatepicker [bsConfig]="datePickerConfig">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="ProjectPriority">Priority</label>
+                    <div class="col-md-6">
+                        <input id="rngProjectPriority" name="ProjectPriority" class="form-control form-control-sm"
+                            type="range" formControlName="ProjectPriority" list="tickMarks" [class.is-invalid]="ProjectForm['ProjectPriority'].touched &&
+                                    ProjectForm['ProjectPriority'].invalid" [value]="rangeSliderConfig.value"
+                            [min]="rangeSliderConfig.min" [max]="rangeSliderConfig.max" [step]="rangeSliderConfig.step"
+                            oninput="opPriority.value = rngProjectPriority.value">
+                        <datalist id="tickMarks">
+                            <option [value]="mark" [label]="mark" *ngFor="let mark of rangeSliderTickMarks">{{mark}}
+                            </option>
+                        </datalist>
+                        <output id="opPriority">{{rangeSliderConfig.value}}</output>
+                    </div>
+                </div>
+
+                <div class="form-group row required">
+                    <label class="col-md-3 col-form-label" for="UserId">Manager</label>
+                    <div class="col-md-6">
+                        <select class="form-control form-control-sm" id="ddlUserId" name="UserId"
+                            formControlName="UserId"
+                            [class.is-invalid]="ProjectForm['UserId'].touched && ProjectForm['UserId'].invalid">
+                            <option [ngValue]="null">Please select</option>
+                            <option [value]="source.Key" *ngFor="let source of projectLookup.Users">
+                                {{source.Value}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row col-md-6 float-right">
+                    <div class="col-md-3">
+                        <button class="btn btn-sm btn-success">{{projectSaveType}}</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-sm btn-secondary" type="button"
+                            (click)="resetProjectForm()">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</ng-template>

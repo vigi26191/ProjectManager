@@ -43,7 +43,7 @@ namespace ProjectManager.BAL
             {
                 projectLookupDTO = new ProjectLookupDTO
                 {
-                    Users = unitOfWork.Users.GetAll()
+                    Users = unitOfWork.Users.GetAll().Where(w => w.IsActive == true).ToList()
                     .Select(s => new KeyValuePair<int, string>(s.UserId, s.FirstName)).ToList(),
 
                     Projects = Mapper.Map<List<ProjectDTO>>(unitOfWork.Projects.GetAll().ToList())

@@ -113,7 +113,7 @@ namespace ProjectManager.API.Tests
         {
             var task = new TaskDTO()
             {
-                TaskId = 1002,
+                TaskId = 1,
                 TaskName = "Test Task Updated",
                 TaskPriority = 1,
                 IsParentTask = null,
@@ -162,7 +162,7 @@ namespace ProjectManager.API.Tests
         [TestMethod]
         public void TestEndTask_ShouldEndTask()
         {
-            int taskId = 1002;
+            int taskId = 1;
 
             var result = _taskController.EndTask(taskId) as OkNegotiatedContentResult<string>;
 

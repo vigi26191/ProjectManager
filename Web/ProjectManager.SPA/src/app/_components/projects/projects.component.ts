@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { IProjectModel } from 'src/app/_models/project.model';
 import { ProjectsService } from 'src/app/_services/projects.service';
@@ -6,11 +6,11 @@ import { CONSTANTS } from 'src/app/_constants/constants';
 import { MESSAGES } from 'src/app/_messages/messages';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { IUserModel } from 'src/app/_models/user.model';
-import { UsersService } from 'src/app/_services/users.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { IProjectLookup } from 'src/app/_models/project-lookup';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -20,7 +20,9 @@ import { IProjectLookup } from 'src/app/_models/project-lookup';
 export class ProjectsComponent implements OnInit {
   projectForm: FormGroup;
   projects: IProjectModel[] = [];
+
   projectSaveType = 'Add';
+
   projectModel: IProjectModel = {
     ProjectId: 0,
     ProjectName: null,
@@ -36,14 +38,15 @@ export class ProjectsComponent implements OnInit {
 
   isSetDateChecked = false;
 
-  users: IUserModel[] = [];
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
 
   dtOptions: DataTables.Settings = {
-    pageLength: 3,
+    pageLength: 5,
     lengthChange: false,
-    pagingType: 'simple_numbers',
-    ordering: true
+    pagingType: 'simple_numbers'
   };
+  dtTrigger: Subject<any> = new Subject();
 
   datePickerConfig: Partial<BsDatepickerConfig>;
 
@@ -51,12 +54,12 @@ export class ProjectsComponent implements OnInit {
   rangeSliderTickMarks: number[] = [];
 
   bsModalRef: BsModalRef;
+  @ViewChild('saveProjectTemplate', { static: false }) saveProjectTemplate: TemplateRef<any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private projectService: ProjectsService,
-    private userService: UsersService,
     private modalService: BsModalService,
     private alertify: AlertifyService
   ) {
@@ -82,6 +85,17 @@ export class ProjectsComponent implements OnInit {
     this.manageSetDateFields();
   }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  dataTableRender() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
+    });
+  }
+
   buildForm(): void {
     this.projectForm = this.fb.group({
       ProjectName: [null, Validators.required],
@@ -100,22 +114,13 @@ export class ProjectsComponent implements OnInit {
     return [this.ProjectForm['ProjectStartDate'], this.ProjectForm['ProjectEndDate']]
   }
 
-  getAllUsers(): void {
-    this.userService.getUsers()
-      .subscribe(response => {
-        this.users = response;
-      },
-        (error) => { alert(error); },
-        () => { });
-  }
-
   getAllProjects(): void {
     this.projectService.getProjects()
       .subscribe(response => {
         this.projects = response;
       },
         (error) => { this.alertify.error(error); },
-        () => { });
+        () => { this.dataTableRender(); });
   }
 
   submitProjectForm(projectForm: FormGroup): void {
@@ -134,7 +139,10 @@ export class ProjectsComponent implements OnInit {
           (error) => {
             this.alertify.error(error.error.Message);
           },
-          () => { this.getAllProjects(); });
+          () => {
+            this.getAllProjects();
+            this.closeProjectUserModal();
+          });
     } else {
       Object.keys(this.ProjectForm).forEach(key => {
         this.ProjectForm[key].markAsTouched();
@@ -163,8 +171,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   editProject(project: IProjectModel): void {
-    //const project = this.projects.filter(f => f.ProjectId === projectId)[0];
-
     this.projectSaveType = CONSTANTS.UPDATE;
 
     this.projectModel = project;
@@ -184,6 +190,7 @@ export class ProjectsComponent implements OnInit {
       this.manageSetDateFields();
     } else { this.isSetDateChecked = false; }
 
+    this.openSaveProjectModal(this.saveProjectTemplate);
   }
 
   suspendProject(projectId: number): void {
@@ -197,7 +204,9 @@ export class ProjectsComponent implements OnInit {
             (error) => {
               this.alertify.error(error.error.Message);
             },
-            () => { this.getAllProjects(); }
+            () => {
+              this.getAllProjects();
+            }
           );
       }
     );
@@ -246,6 +255,19 @@ export class ProjectsComponent implements OnInit {
 
     this.isSetDateChecked = false;
     this.setRequiredFields(this.DateFields, false);
+  }
+
+  addNewProject(saveProjectTemplate: TemplateRef<any>): void {
+    this.resetProjectForm();
+    this.openSaveProjectModal(saveProjectTemplate);
+  }
+
+  openSaveProjectModal(saveProjectTemplate: TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(saveProjectTemplate, { class: 'modal-lg' });
+  }
+
+  closeProjectUserModal() {
+    this.bsModalRef.hide();
   }
 
 }

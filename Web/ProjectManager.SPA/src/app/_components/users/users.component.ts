@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { IUserModel } from 'src/app/_models/user.model';
 import { UsersService } from 'src/app/_services/users.service';
-import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { CONSTANTS } from 'src/app/_constants/constants';
 import { MESSAGES } from 'src/app/_messages/messages';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-users',
@@ -19,16 +20,24 @@ export class UsersComponent implements OnInit {
   users: IUserModel[] = [];
   userSaveType = 'Add';
 
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+
   dtOptions: DataTables.Settings = {
-    pageLength: 3,
+    pageLength: 5,
     lengthChange: false,
     pagingType: 'simple_numbers'
   };
+  dtTrigger: Subject<any> = new Subject();
+
+  bsModalRef: BsModalRef;
+  @ViewChild('saveUserTemplate', { static: false }) saveUserTemplate: TemplateRef<any>;
 
   constructor(
     private fb: FormBuilder,
     private userService: UsersService,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private modalService: BsModalService
   ) {
   }
 
@@ -36,6 +45,17 @@ export class UsersComponent implements OnInit {
     this.buildForm();
 
     this.getAllUsers();
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  dataTableRender() {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
+    });
   }
 
   buildForm(): void {
@@ -56,7 +76,9 @@ export class UsersComponent implements OnInit {
         this.users = response;
       },
         (error) => { this.alertify.error(error); },
-        () => { });
+        () => {
+          this.dataTableRender();
+        });
   }
 
   submitUserForm(userForm: FormGroup): void {
@@ -72,7 +94,10 @@ export class UsersComponent implements OnInit {
           (error) => {
             this.alertify.success(error.error.Message);
           },
-          () => { this.getAllUsers(); });
+          () => {
+            this.getAllUsers();
+            this.closeSaveUserModal();
+          });
     } else {
       Object.keys(this.UserForm).forEach(key => {
         this.UserForm[key].markAsTouched();
@@ -87,6 +112,8 @@ export class UsersComponent implements OnInit {
     this.userModel = user;
 
     this.userSaveType = CONSTANTS.UPDATE;
+
+    this.openSaveUserModal(this.saveUserTemplate);
   }
 
   removeUser(userId: number): void {
@@ -108,6 +135,19 @@ export class UsersComponent implements OnInit {
     this.userForm.reset();
     this.userModel = { UserId: 0, FirstName: null, LastName: null, EmployeeId: null };
     this.userSaveType = CONSTANTS.ADD;
+  }
+
+  addNewUser(saveUserTemplate: TemplateRef<any>): void {
+    this.resetUserForm();
+    this.openSaveUserModal(saveUserTemplate);
+  }
+
+  openSaveUserModal(saveUserTemplate: TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(saveUserTemplate, { class: 'modal-md' });
+  }
+
+  closeSaveUserModal() {
+    this.bsModalRef.hide();
   }
 
 }

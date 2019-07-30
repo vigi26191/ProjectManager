@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { ITaskModel } from 'src/app/_models/task.model';
 import { TasksService } from 'src/app/_services/tasks.service';
@@ -9,13 +9,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ROUTE_PATH } from 'src/app/_constants/route-names.constant';
 import { ITaskLookup } from 'src/app/_models/task-lookup';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { Subject } from 'rxjs';
+import { DataTableDirective } from 'angular-datatables';
 
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css']
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent implements OnInit, OnDestroy {
   taskForm: FormGroup;
   taskModel: ITaskModel;
   tasks: ITaskModel[];
@@ -36,13 +38,10 @@ export class TasksComponent implements OnInit {
   rangeSliderConfig = { min: 0, max: 30, value: 0, step: 1 };
   rangeSliderTickMarks: number[] = [];
 
-  dtOptions: DataTables.Settings = {
-    pageLength: 5,
-    lengthChange: false,
-    pagingType: 'simple_numbers',
-    ordering: true,
-    searching: false
-  };
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
 
   constructor(
     private router: Router,
@@ -52,16 +51,17 @@ export class TasksComponent implements OnInit {
     private alertify: AlertifyService
   ) {
     activatedRoute.params.subscribe(taskSection => {
-      if (taskSection.section == ROUTE_PATH.ADD_TASK) {
-        this.activatedRoute.data.subscribe(resolved => {
-          this.taskLookUp = resolved['lookUpData'];
-        });
+      this.activatedRoute.data.subscribe(resolved => {
+        this.taskLookUp = resolved['lookUpData'];
+      });
 
+      this.getAllTasks();
+
+      if (taskSection.section == ROUTE_PATH.ADD_TASK) {
         this.activateTaskAddSection();
       }
 
       if (taskSection.section == ROUTE_PATH.VIEW_TASK) {
-        this.getAllTasks();
         this.activateTaskViewSection();
       }
     });
@@ -78,6 +78,23 @@ export class TasksComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+  }
+
+  ngOnDestroy() {
+    this.dtTrigger.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next();
+  }
+
+  dataTableRender(): void {
+    if (this.dtElement) {
+      this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        dtInstance.destroy();
+        this.dtTrigger.next();
+      });
+    }
   }
 
   buildForm(): void {
@@ -109,10 +126,13 @@ export class TasksComponent implements OnInit {
   getAllTasks(): void {
     this.tasksService.getTasks()
       .subscribe(response => {
+        this.tasks = [];
         this.tasks = response;
       },
         (error) => { this.alertify.error(error); },
-        () => { });
+        () => {
+          this.dataTableRender();
+        });
   }
 
   submitTaskForm(taskForm: FormGroup): void {
